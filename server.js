@@ -1,6 +1,3 @@
-
-// 
-
 /* eslint-disable */
 const compression = require('compression');
 const fs = require('fs');
@@ -18,7 +15,7 @@ const chime = new AWS.Chime({ region: 'us-east-1' });
 const alternateEndpoint = process.env.ENDPOINT;
 if (alternateEndpoint) {
   console.log('Using endpoint: ' + alternateEndpoint);
-  chime.createMeeting({ ClientRequestToken: uuid() }, () => {});
+  chime.createMeeting({ ClientRequestToken: uuid() }, () => { });
   AWS.NodeHttpClient.sslAgent.options.rejectUnauthorized = false;
   chime.endpoint = new AWS.Endpoint(alternateEndpoint);
 } else {
@@ -40,7 +37,7 @@ const server = require(protocol).createServer(
   options,
   async (request, response) => {
     log(`${request.method} ${request.url} BEGIN`);
-    compression({})(request, response, () => {});
+    compression({})(request, response, () => { });
     try {
       if (
         request.method === 'GET' &&
@@ -52,7 +49,7 @@ const server = require(protocol).createServer(
         response.setHeader('Content-Type', 'text/html');
         response.end(fs.readFileSync(`dist/${app}.html`));
       } else if (
-        request.method === 'POST' &&
+        request.method === 'GET' &&
         request.url.startsWith('/join?')
       ) {
         const query = url.parse(request.url, true).query;
@@ -106,7 +103,7 @@ const server = require(protocol).createServer(
         response.end();
         log(JSON.stringify(attendeeInfo, null, 2));
       } else if (
-        request.method === 'POST' &&
+        request.method === 'GET' &&
         request.url.startsWith('/meeting?')
       ) {
         const query = url.parse(request.url, true).query;
@@ -134,7 +131,7 @@ const server = require(protocol).createServer(
         response.write(JSON.stringify(joinInfo), 'utf8');
         response.end();
         log(JSON.stringify(joinInfo, null, 2));
-      } else if (request.method === 'POST' && request.url.startsWith('/end?')) {
+      } else if (request.method === 'GET' && request.url.startsWith('/end?')) {
         const query = url.parse(request.url, true).query;
         const title = query.title;
         await chime
@@ -144,7 +141,7 @@ const server = require(protocol).createServer(
           .promise();
         response.statusCode = 200;
         response.end();
-      } else if (request.method === 'POST' && request.url.startsWith('/logs')) {
+      } else if (request.method === 'GET' && request.url.startsWith('/logs')) {
         console.log('Writing logs to cloudwatch');
         response.end('Writing logs to cloudwatch');
       } else {

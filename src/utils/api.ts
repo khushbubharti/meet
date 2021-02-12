@@ -24,7 +24,7 @@ export async function fetchMeeting(
       region ? `&region=${encodeURIComponent(region)}` : ''
     }`,
     {
-      method: 'POST'
+      method: 'GET'
     }
   );
   const data = await response.json();
@@ -61,7 +61,7 @@ export async function endMeeting(meetingId: string) {
   const res = await fetch(
     `${BASE_URL}end?title=${encodeURIComponent(meetingId)}`,
     {
-      method: 'POST'
+      method: 'GET'
     }
   );
 
