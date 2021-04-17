@@ -1,5 +1,5 @@
 {
-  "name": "zeal-community-meeting-app",
+  "name": "me-meeting-app",
   "version": "0.1.0",
   "dependencies": {
     "@types/react": "^16.9.46",
